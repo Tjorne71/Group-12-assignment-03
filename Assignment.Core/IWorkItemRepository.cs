@@ -3,7 +3,7 @@
 public interface IWorkItemRepository
 {
     (Response Response, int WorkItemId) Create(WorkItemCreateDTO workItem);
-    WorkItemDetailsDTO Find(int workItemId);
+    WorkItemDetailsDTO? Find(int workItemId);
     IReadOnlyCollection<WorkItemDTO> Read();
     IReadOnlyCollection<WorkItemDTO> ReadRemoved();
     IReadOnlyCollection<WorkItemDTO> ReadByTag(string tag);

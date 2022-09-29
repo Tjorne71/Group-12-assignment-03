@@ -20,9 +20,16 @@ public class UserRepository : IUserRepository
             entity = new User(user.Name, user.Email );
 
             _context.Users.Add(entity);
-            _context.SaveChanges();
-
-            response = Created;
+            try
+            {
+                _context.SaveChanges();
+                response = Created;
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                
+                response = Conflict;
+            }
         }
         else
         {

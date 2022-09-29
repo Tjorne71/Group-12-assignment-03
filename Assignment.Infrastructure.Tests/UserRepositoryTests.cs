@@ -32,6 +32,24 @@ public class UserRepositoryTests : IDisposable
         created.Should().Be(4);
     }
 
+    [Fact]
+    public void Create_given_User_with_non_unique_email_returns_Conflict()
+    {
+        var (response, created) = _repository.Create(new UserCreateDTO("Test5", "test@test.dk"));
+
+        response.Should().Be(Conflict);
+
+    }
+
+    [Fact]
+    public void Delete_User_assignt_to_WorkItem_returns_Conflict()
+    {
+        var (response, created) = _repository.Create(new UserCreateDTO("Test5", "test@test.dk"));
+
+        response.Should().Be(Conflict);
+
+    }
+
     public void Dispose()
     {
         _context.Dispose();

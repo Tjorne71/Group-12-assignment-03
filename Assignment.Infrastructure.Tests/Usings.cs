@@ -4,4 +4,5 @@ global using Microsoft.Data.Sqlite;
 global using Microsoft.EntityFrameworkCore;
 global using Assignment.Core;
 global using static Assignment.Core.Response;
+global using static Assignment.Core.State;
 
