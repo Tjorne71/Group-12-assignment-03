@@ -53,7 +53,6 @@ public class WorkItemRepositoryTests
     public void Creating_WorkItem_set_State_and_DateTime()
     {
         var workItem = new WorkItemCreateDTO("newTest", null, null, new List<string>());
-        Console.WriteLine(workItem);
         var (response, workItemId) = _repository.Create(workItem);
         var workItemDetail = _repository.Find(workItemId);
 
@@ -61,6 +60,25 @@ public class WorkItemRepositoryTests
         var actual = DateTime.UtcNow;
 
         actual.Should().BeCloseTo(workItemDetail.Created, precision: TimeSpan.FromSeconds(5));
+    }
 
+    [Fact]
+    public void Updating_WorkItem_Updates_StateUpdated()
+    {
+        var w = _repository.Find(2);
+        _repository.Update(new WorkItemUpdateDTO(w.Id, w.Title, null, w.Description, new List<string>(), Active));
+
+        var actual = DateTime.UtcNow;
+        var workItemDetail = _repository.Find(2);
+
+        actual.Should().BeCloseTo(workItemDetail.Created, precision: TimeSpan.FromSeconds(5));
+    }
+
+    [Fact]
+    public void Updating_WorkItem_with_Non_Existing_User_Returns_BadRequest()
+    {
+        var w = _repository.Find(2);
+        var res = _repository.Update(new WorkItemUpdateDTO(w.Id, w.Title, 1, w.Description, new List<string>(), Active));
+        res.Should().Be(BadRequest);
     }
 }

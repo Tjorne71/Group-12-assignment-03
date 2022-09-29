@@ -24,5 +24,7 @@ public class WorkItem
 
     public DateTime Updated { get; set; }
     public User? AssignedTo { get; set; }
-    public ICollection<Tag> Tags { get; set; }
+    
+    [Required]
+    public virtual ICollection<Tag> Tags { get; set; }
 }

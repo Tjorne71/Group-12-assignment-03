@@ -11,11 +11,11 @@ public class Tag
     [StringLength(50), Required(ErrorMessage = "Name is required.")]
     public string Name { get; set; }
 
-    public virtual ICollection<WorkItem> Tasks { get; set; }
+    public virtual ICollection<WorkItem> WorkItems { get; set; }
 
     public Tag (string name)
     {
       Name = name;
-      Tasks = new List<WorkItem>();
+      WorkItems = new List<WorkItem>();
     }
 }

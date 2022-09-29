@@ -40,7 +40,7 @@ public class TagRepository : ITagRepository
         {
             response = Response.NotFound;
         }
-        else if (tag.Tasks.Any() && !force)
+        else if (tag.WorkItems.Any() && !force)
         {
             response = Response.Conflict;
         }

@@ -122,17 +122,23 @@ public class WorkItemRepository : IWorkItemRepository
 
     public Response Update(WorkItemUpdateDTO workItem)
     {
-       var entity = _context.WorkItems.Find(workItem.Id);
+        Response response;
+        var entity = _context.WorkItems.Find(workItem.Id);
+
+        if(workItem.AssignedToId != null && _context.Users.Find(workItem.AssignedToId) == null) {
+            response = BadRequest;
+            return response;
+        }
 
         // Get all tags from task
         var allTags = new List<Tag> {};
-        foreach(string s in workItem.Tags) {
-            int tagId = int.Parse(s);
-            var tag = _context.Tags.Find(tagId);
-            if (tag != null) allTags.Add(tag);
+        if(workItem.Tags != null) {
+            foreach(string s in workItem.Tags) {
+                int tagId = int.Parse(s);
+                var tag = _context.Tags.Find(tagId);
+                if (tag != null) allTags.Add(tag);
+            }
         }
-
-        Response response;
 
         if (entity is null) 
         {
@@ -146,7 +152,7 @@ public class WorkItemRepository : IWorkItemRepository
         {
             entity.Title = workItem.Title;
             entity.Tags = allTags;
-            if (workItem.State != entity.State) {   //Only update "updated" if state is changed
+            if (workItem.State != entity.State) {  
                 entity.Updated = DateTime.UtcNow;
             }
             entity.State = workItem.State;
