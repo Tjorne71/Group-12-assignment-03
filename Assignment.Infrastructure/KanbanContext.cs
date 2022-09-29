@@ -2,7 +2,7 @@ namespace Assignment.Infrastructure;
 
 public class KanbanContext : DbContext
 {
-    public KanbanContext(DbContextOptions options) : base(options){}
+    public KanbanContext(DbContextOptions<KanbanContext> options) : base(options){}
     public DbSet<User> Users => Set<User>();
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<WorkItem> WorkItems => Set<WorkItem>();
